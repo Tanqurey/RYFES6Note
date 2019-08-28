@@ -67,20 +67,12 @@ console.log('------1-------')
 /*
 关于this指向
 箭头函数内部没有自己的this,其this就是外层代码块的this。
-this总是指向函数定义生效时所在的对象
+this自动捕获父级执行上下文的this
 因此，不可以当做构造函数
 */
 
 // 假设以下代码均在浏览器端执行
 
-let handler = {
-  func1: () => {
-    console.log(this)
-  },
-  func2() {
-    console.log(this)
-  }
-}
 
 handler.func1() //回溯到定义阶段，在定义环境下不存在自己的this，所以使用了handler环境下的this————window
 handler.func2() //执行环境是handler对象，所以打印handler
@@ -118,3 +110,12 @@ function handler3() {
 }
 
 handler3()() // 100
+
+let obj = {
+  a = 100,
+  func: () => {
+    return ()=>{
+      console.log(a)
+    }
+  }
+}
